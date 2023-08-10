@@ -1,8 +1,6 @@
 import React, { useState } from 'react'
 import { storage } from '../../firebase.config'
 import { deleteObject, getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage'
-import { snapshotEqual } from 'firebase/firestore'
-import { toast } from 'react-toastify'
 import { AiOutlineCloudUpload, AiFillDelete } from 'react-icons/ai'
 import Loader from '../../component/Loader'
 import { getAllProduct, saveProduct } from '../../utils/firebaseFunction'
@@ -24,10 +22,38 @@ function AddProduct() {
   const [{ items }, dispatch] = useStateValue();
 
 
+
   const uploadImage = (e) => {
     setIsLoading(true);
     const imageFile = e.target.files[0];
-    // console.log(imageFile)
+
+    // Validasi tipe file
+    if (imageFile.type !== 'image/jpeg' && imageFile.type !== 'image/png') {
+      setFields(true);
+      setMsg('File harus dalam format JPG atau PNG.');
+      setAlertStatus('danger');
+      setTimeout(() => {
+        setFields(false)
+        setIsLoading(false)
+      }, 4000)
+      clearData();
+      return;
+    }
+
+    // validasi ukuran file
+    if (imageFile.size > 100 * 1024) {
+      setFields(true);
+      setMsg('ukuran gambar tidak boleh lebih dari 100kb');
+      setAlertStatus('danger');
+      setTimeout(() => {
+        setFields(false)
+        setIsLoading(false)
+      }, 4000)
+      clearData();
+      return;
+    }
+
+    console.log(imageFile)
     const storageRef = ref(storage, `Images/${Date.now()}-${imageFile.name}`)
     const uploadTask = uploadBytesResumable(storageRef, imageFile);
 
@@ -36,7 +62,7 @@ function AddProduct() {
     }, (erorr) => {
       console.log(erorr);
       setFields(true)
-      setMsg('erorr while uploading : Try again...');
+      setMsg('Terjadi kesalahan saat mengunggah gambar. Coba lagi.');
       setAlertStatus('danger')
       setTimeout(() => {
         setFields(false)
@@ -47,7 +73,7 @@ function AddProduct() {
         setImageAsset(downloadURL);
         setIsLoading(false);
         setFields(true);
-        setMsg("Image uploaded successfully 😊");
+        setMsg("Gambar berhasil diunggah 😊");
         setAlertStatus("success");
         setTimeout(() => {
           setFields(false);
@@ -63,7 +89,7 @@ function AddProduct() {
       setImageAsset(null);
       setIsLoading(false);
       setFields(true);
-      setMsg("Image deleted successfully 😊");
+      setMsg("Gambar berhasil dihapus 😊");
       setAlertStatus("success");
       setTimeout(() => {
         setFields(false);
@@ -76,7 +102,7 @@ function AddProduct() {
     try {
       if (!title || !stock || !imageAsset || !priceSell || !priceBuy || !category) {
         setFields(true);
-        setMsg("Required fields can't be empty");
+        setMsg("Data tidak boleh kosong");
         setAlertStatus("danger");
         setTimeout(() => {
           setFields(false);
@@ -84,6 +110,20 @@ function AddProduct() {
         }, 4000);
         clearData();
       } else {
+
+        // validasi nama harus unik
+        const itemExists = items.some(item => item.title === title);
+        if (itemExists) {
+          setFields(true);
+          setMsg("Item dengan nama yang sama sudah ada");
+          setAlertStatus("danger");
+          setTimeout(() => {
+            setFields(false);
+            setIsLoading(false);
+          }, 4000);
+          clearData();
+          return;
+        }
         const data = {
           id: `${Date.now()}`,
           title: title,
@@ -96,7 +136,7 @@ function AddProduct() {
         saveProduct(data);
         setIsLoading(false);
         setFields(true);
-        setMsg("Data Uploaded successfully 😊");
+        setMsg("Data Berhasil diupload 😊");
         setAlertStatus("success");
         setTimeout(() => {
           setFields(false);
@@ -106,7 +146,7 @@ function AddProduct() {
     } catch (error) {
       console.log(error);
       setFields(true);
-      setMsg("Error while uploading : Try Again 🙇");
+      setMsg("Terjadi kesalahan saat mengunggah gambar. Coba lagi. 🙇");
       setAlertStatus("danger");
       setTimeout(() => {
         setFields(false);

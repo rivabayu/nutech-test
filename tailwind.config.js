@@ -13,15 +13,8 @@ module.exports = {
       },
     },
     extend: {
-
       colors: {
         heroBgColor: '#d6e5fb',
-        smallText: '#999',
-        headingText: '#0a1d37',
-        cartBg1: '#fdefe6',
-        cartBg2: '#d6e5fb',
-        cartBg3: '#ceebe9',
-        cartBg4: '#e2f2b2',
       }
     },
 

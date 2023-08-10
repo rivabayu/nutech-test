@@ -8,6 +8,7 @@ import { useStateValue } from './redux/StateProvider'
 import { getAllProduct } from "./utils/firebaseFunction";
 import { actionType } from "./redux/reducer";
 import { useEffect } from "react";
+import Dashboard from "./pages/dashboard/Dashboard";
 
 
 function App() {
@@ -36,6 +37,7 @@ function App() {
       <Route path="/" element={<Home />} />
       <Route path="/addProduct" element={<AddProduct />} />
       <Route path="/shop" element={<Shop />} />
+      <Route path="/dashboard" element={<Dashboard />} />
       {/* <Route path="/login" element={<Login />} />
       <Route path="/singup" element={<Singup />} /> */}
     </Routes>

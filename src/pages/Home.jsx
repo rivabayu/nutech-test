@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import ProductList from '../component/ProductList'
+import MenuContainer from '../component/MenuContainer'
 
 function Home() {
   return (
@@ -22,6 +23,8 @@ function Home() {
         </div>
         <div></div>
       </section>
+
+      <MenuContainer />
 
       {/* Product List */}
       <section>
