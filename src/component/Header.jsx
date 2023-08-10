@@ -3,7 +3,7 @@ import { MdOutlineShoppingBag } from 'react-icons/md'
 import { Link, useNavigate } from 'react-router-dom'
 import ava from '../aseet/profile.png'
 
-import useAuth from '../custom-hooks/useAuth'
+import useAuth from '../firebase-utils/useAuth'
 import { signOut } from 'firebase/auth'
 import { auth } from '../firebase.config'
 // import { useSelector } from 'react-redux'
