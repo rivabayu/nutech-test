@@ -3,9 +3,9 @@ import { MdOutlineShoppingBag } from 'react-icons/md'
 import { Link, useNavigate } from 'react-router-dom'
 import ava from '../aseet/profile.png'
 
-import useAuth from '../firebase-utils/useAuth'
-import { signOut } from 'firebase/auth'
-import { auth } from '../firebase.config'
+// import useAuth from '../firebase-utils/useAuth'
+// import { signOut } from 'firebase/auth'
+// import { auth } from '../firebase.config'
 // import { useSelector } from 'react-redux'
 import { toast } from 'react-toastify'
 
@@ -13,18 +13,18 @@ import { toast } from 'react-toastify'
 function Header() {
 
   // const totalQuantity = useSelector(state => state.cart.totalQuantity)
-  const { currentUser } = useAuth()
+  // const { currentUser } = useAuth()
 
-  const navigate = useNavigate()
+  // const navigate = useNavigate()
 
-  const logout = () => {
-    signOut(auth).then(() => {
-      toast.success('Logged Out')
-      navigate('/login')
-    }).catch(erorr => {
-      toast.error(erorr.message)
-    })
-  }
+  // const logout = () => {
+  //   signOut(auth).then(() => {
+  //     toast.success('Logged Out')
+  //     navigate('/login')
+  //   }).catch(erorr => {
+  //     toast.error(erorr.message)
+  //   })
+  // }
 
   return (
     <div className="navbar px-32 py-3 bg-blue-300">
@@ -54,7 +54,7 @@ function Header() {
             </div>
           </label>
 
-          <ul tabIndex={0} className="menu menu-compact dropdown-content  mt-3 p-2 shadow bg-base-100 rounded-box w-52">
+          {/* <ul tabIndex={0} className="menu menu-compact dropdown-content  mt-3 p-2 shadow bg-base-100 rounded-box w-52">
             {
               currentUser ?
                 <div>
@@ -73,7 +73,7 @@ function Header() {
                   </Link>
                 </div>
             }
-          </ul>
+          </ul> */}
         </div>
       </div>
     </div>
