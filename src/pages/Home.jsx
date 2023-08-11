@@ -1,15 +1,15 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import ProductList from '../component/ProductList'
 import MenuContainer from '../component/MenuContainer'
 import Hero from '../aseet/hero-img.png'
 import Clock from '../component/Clock'
 import imgdiskon from '../aseet/counter-timer-img.png'
+import Helmet from '../component/Helmet'
 
 function Home() {
   const date = new Date().getFullYear()
   return (
-    <>
+    <Helmet title="Home">
       {/* hero section */}
       <section className='px-32 pb-10 pt-32 bg-heroBgColor'>
         <div className='flex justify-center'>
@@ -52,7 +52,8 @@ function Home() {
           </div>
         </div>
       </section>
-    </>
+    </Helmet>
+
 
   )
 }

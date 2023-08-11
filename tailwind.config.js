@@ -13,6 +13,9 @@ module.exports = {
       },
     },
     extend: {
+      backgroundImage: {
+        'CommonBg': "url('../src/aseet/bgcommon.jpg')"
+      },
       colors: {
         heroBgColor: '#d6e5fb',
       }

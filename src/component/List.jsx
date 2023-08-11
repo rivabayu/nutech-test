@@ -1,31 +1,22 @@
 import React, { useState } from 'react';
 import formatCurrency from '../utils/formatToRupiah';
 import formatRupiah from '../utils/formatToRupiah';
-import { doc, deleteDoc } from 'firebase/firestore';
-import { firestore } from '../firebase.config';
+// import { doc, deleteDoc } from 'firebase/firestore';
+// import { firestore } from '../firebase.config';
 import { toast } from 'react-toastify';
 import { Link } from 'react-router-dom';
+import { deleteProduct } from '../utils/firebaseFunction'
 
 function List({ data }) {
   const [modal, setModal] = useState(false);
   const [selectedItemId, setSelectedItemId] = useState(null);
-
-
-  const deleteProduct = async (id) => {
-    try {
-      await deleteDoc(doc(firestore, 'Items', id));
-      console.log('Dokumen berhasil dihapus');
-      toast.success('file berhasil dihapus')
-    } catch (error) {
-      console.error('Error saat menghapus dokumen:', error);
-    }
-  };
 
   const handleDelete = () => {
     if (selectedItemId) {
       deleteProduct(selectedItemId);
       setSelectedItemId(null);
       setModal(false);
+      toast.success('file berhasil dihapus')
     }
   };
 
