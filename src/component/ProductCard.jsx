@@ -1,43 +1,39 @@
 import React, { useRef, useState, useEffect } from 'react'
-import img from '../aseet/pxfuel.jpg'
 import { AiFillPlusSquare } from 'react-icons/ai'
-import { useStateValue } from '../redux/StateProvider'
-import { actionType } from '../redux/reducer'
+import formatCurrency from '../utils/formatToRupiah'
 
 
-
-
-
-function ProductCard() {
-
+function ProductCard({ flag, data, scrollValue }) {
   const rowProduct = useRef()
-  const [items, setItems] = useState([])
-  const [{ cartItems }, dispatch] = useStateValue()
-
-
-  // useEffect(() => {
-  //   rowProduct.current.scrollLeft += scrollvalue
-  // }, [scrollvalue])
-
   useEffect(() => {
+    rowProduct.current.scrollLeft += scrollValue;
+  }, [scrollValue]);
 
-  })
   return (
-    <div className=''>
-      <div className="card w-[16rem] h-[20rem] bg-base-100 shadow-xl cursor-pointer m-none">
-        <figure className=" ">
-          <img src={img} alt="product" className="w-52 h-[12rem] hover:scale-110" />
-        </figure>
-        <div className="p-4">
-          <div className="font-bold text-lg ">produt 1
-          </div>
-          <p className='text-sm'></p>
-          <div className='flex justify-between pt-5'>
-            <div className='text-md font-semibold'><span>Rp. </span></div>
-            <AiFillPlusSquare className='text-3xl -mt-2 hover:text-white hover:bg-black' />
+    <div
+      ref={rowProduct}
+      className={`w-full flex pb-10 items-center gap-5 my-12 scroll-smooth ${flag
+        ? "overflow-x-scroll"
+        : "overflow-x-hidden flex-wrap justify-center"
+        }`}>
+      {data && data.map(item => (
+        <div
+          key={item.id}
+          className="w-[200px] h-full min-w-[200px] md:w-[200px] md:min-w-[250px] shadow-xl cursor-pointer m-auto">
+          <figure className=" ">
+            <img src={item?.imageURL} alt="product" className="w-full px-3 h-[12rem] hover:scale-110" />
+          </figure>
+          <div className="p-4">
+            <div className="font-bold text-lg ">{item?.title}
+            </div>
+            <p className='text-sm'>{item?.category}</p>
+            <div className='flex justify-between pt-5'>
+              <div className='text-md font-semibold'><span>{formatCurrency(item?.priceBuy)} </span></div>
+              <AiFillPlusSquare className='text-3xl -mt-2 hover:text-white hover:bg-black' />
+            </div>
           </div>
         </div>
-      </div>
+      ))}
     </div>
   )
 }

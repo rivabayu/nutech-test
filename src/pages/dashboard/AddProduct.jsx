@@ -21,8 +21,6 @@ function AddProduct() {
   const [isLoading, setIsLoading] = useState(false);
   const [{ items }, dispatch] = useStateValue();
 
-
-
   const uploadImage = (e) => {
     setIsLoading(true);
     const imageFile = e.target.files[0];
@@ -100,9 +98,23 @@ function AddProduct() {
   const saveDetails = () => {
     setIsLoading(true);
     try {
-      if (!title || !stock || !imageAsset || !priceSell || !priceBuy || !category) {
+      const parsedPriceSell = parseFloat(priceSell);
+      const parsedPriceBuy = parseFloat(priceBuy);
+      const parsedStock = parseInt(stock);
+
+      if (
+        !title ||
+        !stock ||
+        !imageAsset ||
+        isNaN(parsedPriceSell) ||
+        isNaN(parsedPriceBuy) ||
+        isNaN(parsedStock) ||
+        parsedPriceSell <= 0 ||
+        parsedPriceBuy <= 0 ||
+        parsedStock <= 0
+      ) {
         setFields(true);
-        setMsg("Data tidak boleh kosong");
+        setMsg("input data salah");
         setAlertStatus("danger");
         setTimeout(() => {
           setFields(false);
@@ -110,8 +122,6 @@ function AddProduct() {
         }, 4000);
         clearData();
       } else {
-
-        // validasi nama harus unik
         const itemExists = items.some(item => item.title === title);
         if (itemExists) {
           setFields(true);
@@ -129,9 +139,9 @@ function AddProduct() {
           title: title,
           imageURL: imageAsset,
           category: category,
-          qty: stock,
-          priceBuy: priceBuy,
-          priceSell: priceSell,
+          qty: parsedStock,
+          priceBuy: parsedPriceBuy,
+          priceSell: parsedPriceSell,
         };
         saveProduct(data);
         setIsLoading(false);
@@ -153,9 +163,9 @@ function AddProduct() {
         setIsLoading(false);
       }, 4000);
     }
-
-    fetchData()
+    // fetchData()
   };
+
   const clearData = () => {
     setTitle("");
     setImageAsset(null);
@@ -164,18 +174,17 @@ function AddProduct() {
     setPriceSell("");
     setCategory("Select Category");
   };
-
-  const fetchData = async () => {
-    try {
-      const data = await getAllProduct();
-      dispatch({
-        type: actionType.SET_ITEMS,
-        items: data,
-      });
-    } catch (error) {
-      console.error('Error fetching data:', error);
-    }
-  };
+  // const fetchData = async () => {
+  //   try {
+  //     const data = await getAllProduct();
+  //     dispatch({
+  //       type: actionType.SET_ITEMS,
+  //       items: data,
+  //     });
+  //   } catch (error) {
+  //     console.error('Error fetching data:', error);
+  //   }
+  // };
 
 
   return (
@@ -210,13 +219,11 @@ function AddProduct() {
               Select Category
             </option>
             <option value="electronik">Electronik</option>
-            <option value="makanan">Makanan</option>
+            <option value="Pakaian">Pakaian</option>
             <option value="jam">Jam</option>
             <option value="perabot">Perabot</option>
           </select>
-
         </div>
-
         <div className="group flex justify-center items-center flex-col border-2 border-dotted border-gray-300 w-full h-225 md:h-340 cursor-pointer rounded-lg">
           {isLoading ? (
             <Loader />
@@ -264,7 +271,6 @@ function AddProduct() {
 
         <div className="w-full flex flex-col md:flex-row items-center gap-3">
           <div className="w-full py-2 border-b border-gray-300 flex items-center gap-2">
-
             <input
               type="number"
               required
@@ -274,7 +280,6 @@ function AddProduct() {
               className="w-full h-full text-lg bg-transparent outline-none border-none placeholder:text-gray-400 text-textColor"
             />
           </div>
-
           <div className="w-full py-2 border-b border-gray-300 flex items-center gap-2">
             <p className="text-gray-700 text-[1rem]">Rp.</p>
             <input
@@ -289,7 +294,7 @@ function AddProduct() {
           <div className="w-full py-2 border-b border-gray-300 flex items-center gap-2">
             <p className="text-gray-700 text-[1rem]">Rp.</p>
             <input
-              type="Number"
+              type="number"
               required
               value={priceSell}
               onChange={(e) => setPriceSell(e.target.value)}
@@ -298,7 +303,6 @@ function AddProduct() {
             />
           </div>
         </div>
-
         <div className="flex items-center w-full">
           <button
             type="button"

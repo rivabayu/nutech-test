@@ -1,4 +1,4 @@
-import { collection, doc, getDocs, orderBy, query, setDoc } from "firebase/firestore";
+import { collection, doc, getDocs, orderBy, query, deleteDoc, setDoc } from "firebase/firestore";
 import { firestore } from "../firebase.config";
 
 export const saveProduct = async (data) => {
@@ -15,4 +15,12 @@ export const getAllProduct = async () => {
     return items.docs.map((doc) => doc.data());
 };
 
+// export const deleteProduct = async (id) => {
+//     try {
+//         await deleteDoc(doc(firestore, 'Items', id));
+//         console.log('Dokumen berhasil dihapus');
+//     } catch (error) {
+//         console.error('Error saat menghapus dokumen:', error);
+//     }
+// };
 

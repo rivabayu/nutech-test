@@ -1,7 +1,6 @@
 import "./App.css";
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import Home from './pages/Home'
-import Shop from './pages/Shop'
 import AddProduct from "./pages/dashboard/AddProduct";
 import Header from './component/Header'
 import { useStateValue } from './redux/StateProvider'
@@ -9,6 +8,8 @@ import { getAllProduct } from "./utils/firebaseFunction";
 import { actionType } from "./redux/reducer";
 import { useEffect } from "react";
 import Dashboard from "./pages/dashboard/Dashboard";
+import EditProduct from "./pages/EditProduct";
+import Footer from "./component/Footer";
 
 
 function App() {
@@ -36,11 +37,12 @@ function App() {
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/addProduct" element={<AddProduct />} />
-      <Route path="/shop" element={<Shop />} />
+      <Route path="/editProduct/:itemId" element={<EditProduct />} />
       <Route path="/dashboard" element={<Dashboard />} />
       {/* <Route path="/login" element={<Login />} />
       <Route path="/singup" element={<Singup />} /> */}
     </Routes>
+    <Footer />
   </Router>
 
 

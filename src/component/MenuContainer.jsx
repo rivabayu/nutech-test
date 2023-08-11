@@ -9,6 +9,9 @@ function MenuContainer() {
     const [scrollValue, setScrollValue] = useState(0);
     const [{ items }, dispatch] = useStateValue(0)
     console.log(items)
+
+
+    useEffect(() => { }, [scrollValue])
     return (
         <section className='px-32 py-10 flex flex-col'>
             <div className='w-full flex items-center justify-between pb-5'>
@@ -19,24 +22,25 @@ function MenuContainer() {
                     <motion.div
                         whileTap={{ scale: 0.75 }}
                         className="w-8 h-8 rounded-lg bg-blue-300 hover:bg-blue-500 cursor-pointer hover:shadow-lg flex items-center justify-center"
-                        onClick={() => setScrollValue(-400)}
+                        onClick={() => setScrollValue(-1200)}
                     >
                         <AiOutlineLeft className="text-lg text-white" />
                     </motion.div>
                     <motion.div
                         whileTap={{ scale: 0.75 }}
                         className="w-8 h-8 rounded-lg bg-blue-300 hover:bg-blue-500 cursor-pointer transition-all duration-100 ease-in-out hover:shadow-lg flex items-center justify-center"
-                        onClick={() => setScrollValue(400)}
+                        onClick={() => setScrollValue(1200)}
                     >
                         <AiOutlineRight className="text-lg text-white" />
                     </motion.div>
                 </div>
             </div>
-            <div className='pt-6'>
+            <div className='pt-1 '>
                 <ProductCard
                     scrollValue={scrollValue}
                     flag={true}
-                    data={items}
+                    data={items?.filter(n => n.category === "electronik"
+                    )}
                 />
             </div>
         </section>
